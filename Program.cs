@@ -7,6 +7,7 @@ tamagocha.ThirstyChanged += Tamagocha_ThirstyChanged;
 tamagocha.DirtyChanged += Tamagocha_DirtyChanged;
 
 ConsoleKeyInfo command;
+Random random = new Random();
 do
 {
     command = Console.ReadKey();
@@ -18,7 +19,43 @@ do
         tamagocha.Drink();
     else if (command.Key == ConsoleKey.C)
         tamagocha.Clean();
+    else if (command.Key == ConsoleKey.P)
+    {
+        IPresent present;
+        int presentType = random.Next(1, 4);
+        switch (presentType)
+        {
+            case 1:
+                present = new Toy();
+                break;
+            case 2:
+                present = new Candy();
+                break;
+            case 3:
+                present = new Book();
+                break;
+            default:
+                present = new Toy();
+                break;
+        }
 
+        int actionType = random.Next(1, 4);
+        switch (actionType)
+        {
+            case 1:
+                present.Open();
+                break;
+            case 2:
+                present.Gnaw();
+                break;
+            case 3:
+                present.Smash();
+                break;
+            default:
+                present.Open();
+                break;
+        }
+    }
 }
 while (command.Key != ConsoleKey.Escape);
 tamagocha.Stop();
@@ -27,7 +64,7 @@ void Tamagocha_HungryChanged(object? sender, EventArgs e)
 {
     Console.SetCursorPosition(0, 0);
     Console.Write($"{tamagocha.Name} голодает! Показатель голода растет: {tamagocha.Hungry}");
-    if (tamagocha.Hungry > 200)
+    if (tamagocha.Hungry > 20000)
     {
         tamagocha.IsDead = true;
         Console.SetCursorPosition(0, 14);
@@ -40,7 +77,7 @@ void Tamagocha_ThirstyChanged(object? sender, EventArgs e)
 {
     Console.SetCursorPosition(0, 1);
     Console.Write($"{tamagocha.Name} хочет пить! Показатель жажды растет: {tamagocha.Thirsty}");
-    if (tamagocha.Thirsty > 100)
+    if (tamagocha.Thirsty > 10000)
     {
         tamagocha.IsDead = true;
         Console.SetCursorPosition(0, 15);
@@ -52,11 +89,65 @@ void Tamagocha_DirtyChanged(object? sender, EventArgs e)
 {
     Console.SetCursorPosition(0, 2);
     Console.Write($"{tamagocha.Name} грязный! Показатель грязности растет: {tamagocha.Dirty}");
-    if (tamagocha.Dirty > 150)
+    if (tamagocha.Dirty > 150000)
     {
         tamagocha.IsDead = true;
         Console.SetCursorPosition(0, 16);
         Console.WriteLine($"{tamagocha.Name} ушел от вас");
+    }
+}
+
+class Toy : IPresent
+{
+    public void Open()
+    {
+        Console.WriteLine("Игрушка открыта!");
+    }
+
+    public void Gnaw()
+    {
+        Console.WriteLine("Игрушка погрызана!");
+    }
+
+    public void Smash()
+    {
+        Console.WriteLine("Игрушка разбита!");
+    }
+}
+
+class Candy : IPresent
+{
+    public void Open()
+    {
+        Console.WriteLine("Конфеты открыты!");
+    }
+
+    public void Gnaw()
+    {
+        Console.WriteLine("Конфеты погрызаны!");
+    }
+
+    public void Smash()
+    {
+        Console.WriteLine("Конфеты разбиты!");
+    }
+}
+
+class Book : IPresent
+{
+    public void Open()
+    {
+        Console.WriteLine("Книга открыта!");
+    }
+
+    public void Gnaw()
+    {
+        Console.WriteLine("Книга погрызана!");
+    }
+
+    public void Smash()
+    {
+        Console.WriteLine("Книга порвана!");
     }
 }
 
@@ -121,7 +212,9 @@ class Tamagocha
                 case 5: break;
                 default: break;
             }
+
         }
+
     }
 
     private void FallSleep()
@@ -178,57 +271,11 @@ class Tamagocha
 
         Dirty -= random.Next(5, 10);
     }
-    class Toy : IPresent
+
+    public void DoSomethingWithPresent(IPresent present)
     {
-        public void Open()
-        {
-            Console.WriteLine("Игрушка открыта!");
-        }
-
-        public void Gnaw()
-        {
-            Console.WriteLine("Игрушка погрызана!");
-        }
-
-        public void Smash()
-        {
-            Console.WriteLine("Игрушка разбита!");
-        }
-    }
-
-    class Candy : IPresent
-    {
-        public void Open()
-        {
-            Console.WriteLine("Конфеты открыты!");
-        }
-
-        public void Gnaw()
-        {
-            Console.WriteLine("Конфеты погрызаны!");
-        }
-
-        public void Smash()
-        {
-            Console.WriteLine("Конфеты разбиты!");
-        }
-    }
-
-    class Book : IPresent
-    {
-        public void Open()
-        {
-            Console.WriteLine("Книга открыта!");
-        }
-
-        public void Gnaw()
-        {
-            Console.WriteLine("Книга погрызана!");
-        }
-
-        public void Smash()
-        {
-            Console.WriteLine("Книга порвана!");
-        }
-    }
+        present.Open();
+        present.Gnaw();
+        present.Smash();
+    } 
 }
