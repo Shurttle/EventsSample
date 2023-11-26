@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 Tamagocha tamagocha = new Tamagocha { Name = "Паша Михайлюк" };
 tamagocha.HungryChanged += Tamagocha_HungryChanged;
@@ -17,10 +18,10 @@ do
         tamagocha.Drink();
     else if (command.Key == ConsoleKey.C)
         tamagocha.Clean();
+
 }
 while (command.Key != ConsoleKey.Escape);
 tamagocha.Stop();
-
 
 void Tamagocha_HungryChanged(object? sender, EventArgs e)
 {
@@ -32,6 +33,7 @@ void Tamagocha_HungryChanged(object? sender, EventArgs e)
         Console.SetCursorPosition(0, 14);
         Console.WriteLine($"{tamagocha.Name} умери от голода");
     }
+
 }
 
 void Tamagocha_ThirstyChanged(object? sender, EventArgs e)
@@ -45,7 +47,6 @@ void Tamagocha_ThirstyChanged(object? sender, EventArgs e)
         Console.WriteLine($"{tamagocha.Name} умер от жажды");
     }
 }
-
 
 void Tamagocha_DirtyChanged(object? sender, EventArgs e)
 {
@@ -177,5 +178,57 @@ class Tamagocha
 
         Dirty -= random.Next(5, 10);
     }
+    class Toy : IPresent
+    {
+        public void Open()
+        {
+            Console.WriteLine("Игрушка открыта!");
+        }
 
+        public void Gnaw()
+        {
+            Console.WriteLine("Игрушка погрызана!");
+        }
+
+        public void Smash()
+        {
+            Console.WriteLine("Игрушка разбита!");
+        }
+    }
+
+    class Candy : IPresent
+    {
+        public void Open()
+        {
+            Console.WriteLine("Конфеты открыты!");
+        }
+
+        public void Gnaw()
+        {
+            Console.WriteLine("Конфеты погрызаны!");
+        }
+
+        public void Smash()
+        {
+            Console.WriteLine("Конфеты разбиты!");
+        }
+    }
+
+    class Book : IPresent
+    {
+        public void Open()
+        {
+            Console.WriteLine("Книга открыта!");
+        }
+
+        public void Gnaw()
+        {
+            Console.WriteLine("Книга погрызана!");
+        }
+
+        public void Smash()
+        {
+            Console.WriteLine("Книга порвана!");
+        }
+    }
 }
